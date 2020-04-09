@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ForecastMVVM</string>
+    <string name="current_weather_menu_item_title">Today</string>
+    <string name="settings_menu_item_title">Settings</string>
+    <string name="future_list_weather_menu_item_title">7 days</string>
+
+    <!--API informations-->
+    <string name="API_KEY">e75bd1ae04cdfc575c839b095350cc93</string>
+    <string name="API_BASE_URL">http://api.weatherstack.com/</string>
+</resources>
