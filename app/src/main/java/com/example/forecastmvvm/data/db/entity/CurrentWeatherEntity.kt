@@ -3,7 +3,10 @@ package com.example.forecastmvvm.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+
+const val CURRENT_WEATHER_ID: Int = 0
 
 @Entity(tableName = "CURRENT_WEATHER_ENTITY")
 data class CurrentWeatherEntity(
@@ -34,5 +37,6 @@ data class CurrentWeatherEntity(
     @ColumnInfo(name = "vis_miles")
     val visMiles: Double
 ) {
-
+    @PrimaryKey(autoGenerate = false)
+    var id: Int = CURRENT_WEATHER_ID
 }

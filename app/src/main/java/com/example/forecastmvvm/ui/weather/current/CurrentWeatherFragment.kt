@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.db.mapper.CurrentWeatherMapper
+import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.WeatherApiService
+import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
+import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,13 +31,19 @@ class CurrentWeatherFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val apiService = WeatherApiService()
+        val apiService = WeatherApiService(ConnectivityInterceptorImpl(this.requireContext()))
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
 
-        GlobalScope.launch (Dispatchers.Main){
+        // observe network response
+        weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, "onActivityCreated = ")
-            val currentWeatherResponse = apiService.getCurrentWeather("London").await()
-            val currentWeatherEntity = CurrentWeatherMapper().mapToEntity(currentWeatherResponse.currentWeatherEntry)
+            val currentWeatherEntity = CurrentWeatherMapper().mapToEntity(it.currentWeatherEntry)
             Log.d(TAG, "Entity : $currentWeatherEntity")
+        })
+
+        // send a network request
+        GlobalScope.launch(Dispatchers.Main) {
+            weatherNetworkDataSource.fetchCurrentWeather("London")
         }
     }
 

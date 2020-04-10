@@ -14,7 +14,7 @@ import retrofit2.http.Query
 const val API_KEY = "053c944154dc4110b0f23838200804"
 
 //https://api.weatherapi.com/v1/current.json?key=053c944154dc4110b0f23838200804&q=New York
-const val TAG = "WeatherApiService"
+private const val TAG = "WeatherApiService"
 
 interface WeatherApiService {
     @GET("current.json")
@@ -24,22 +24,25 @@ interface WeatherApiService {
     ): Deferred<CurrentWeatherResponse>
 
     companion object {
-        operator fun invoke(): WeatherApiService {
-            val requestInterceptor = Interceptor { chain ->
-                val url = chain.request()
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): WeatherApiService {
+            val requestInterceptor = Interceptor {
+                val url = it.request()
                     .url()
                     .newBuilder()
                     .addQueryParameter("key", API_KEY)
                     .build()
-                val request = chain.request()
+                val request = it.request()
                     .newBuilder()
                     .url(url)
                     .build()
                 Log.d(TAG, request.url().toString())
-                return@Interceptor chain.proceed(request)
+                return@Interceptor it.proceed(request)
             }
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
 

@@ -9,8 +9,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     compileOptions {
-        targetCompatibility = "8"
-        sourceCompatibility = "8"
+        targetCompatibility = "1.8"
+        sourceCompatibility = "1.8"
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
     defaultConfig {
         applicationId "com.example.forecastmvvm"
