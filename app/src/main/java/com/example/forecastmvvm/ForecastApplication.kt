@@ -6,6 +6,7 @@ import com.example.forecastmvvm.data.db.ForecastDatabase
 import com.example.forecastmvvm.data.network.*
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.data.repository.ForecastRepositoryImpl
+import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModel
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
@@ -33,6 +34,8 @@ class ForecastApplication() : Application(), KodeinAware {
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
         // CurrentWeatherViewModelFactory
         bind() from provider { CurrentWeatherViewModelFactory(instance()) }
+
+        bind() from provider { CurrentWeatherViewModel(instance()) }
     }
 
     override fun onCreate() {

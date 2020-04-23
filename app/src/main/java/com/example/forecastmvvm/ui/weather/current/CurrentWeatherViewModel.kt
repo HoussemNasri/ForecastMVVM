@@ -8,12 +8,11 @@ import com.example.forecastmvvm.internal.lazyDeferred
 class CurrentWeatherViewModel(
     private val forecastRepository: ForecastRepository
 ) : ViewModel() {
-    private fun getUnitSystem(): MeasuringUnitSystem {
-        return MeasuringUnitSystem.METRIC
+    fun isMetric(): Boolean {
+        return true
     }
 
     val weather by lazyDeferred {
-        forecastRepository.getCurrentWeather(getUnitSystem())
-
+        forecastRepository.getCurrentWeather(isMetric())
     }
 }

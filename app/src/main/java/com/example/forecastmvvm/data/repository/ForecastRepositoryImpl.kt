@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CurrentWeatherDao
 import com.example.forecastmvvm.data.db.mapper.CurrentWeatherMapper
@@ -13,6 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 
+private const val TAG = "ForecastRepositoryImpl"
+
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource
@@ -21,23 +24,25 @@ class ForecastRepositoryImpl(
     init {
         weatherNetworkDataSource
             .downloadedCurrentWeather.observeForever {
+                Log.d(TAG, "downloadedCurrentWeather")
                 persistFetchedCurrentWeather(it)
             }
     }
 
-    override suspend fun getCurrentWeather(unitSystem: MeasuringUnitSystem): LiveData<out UnitSpecificCurrentWeatherEntry> {
+    override suspend fun getCurrentWeather(isMetric : Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
+        Log.d(TAG, "getCurrentWeather")
         refreshWeatherData()
         return withContext(Dispatchers.IO) {
-            return@withContext if (unitSystem == MeasuringUnitSystem.IMPERIAL)
-                currentWeatherDao.getWeatherImperial()
-            else
+            return@withContext if (isMetric)
                 currentWeatherDao.getWeatherMetric()
+            else
+                currentWeatherDao.getWeatherImperial()
         }
 
     }
 
     private suspend fun refreshWeatherData() {
-        if (isRefreshCurrentNeeded(ZonedDateTime.now().minusHours(1))) {
+        if (isRefreshCurrentNeeded(ZonedDateTime.now().minusMinutes(45))) {
             fetchCurrentWeather()
         }
     }

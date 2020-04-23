@@ -7,6 +7,6 @@ import com.example.forecastmvvm.internal.MeasuringUnitSystem
 interface ForecastRepository {
 
     suspend fun getCurrentWeather(
-        unitSystem: MeasuringUnitSystem
+        isMetrix: Boolean
     ) : LiveData<out UnitSpecificCurrentWeatherEntry>
 }
