@@ -7,4 +7,8 @@
     <!--API informations-->
     <string name="API_KEY">e75bd1ae04cdfc575c839b095350cc93</string>
     <string name="API_BASE_URL">http://api.weatherstack.com/</string>
+    <string name="USE_DEVICE_LOCATION_TITLE">Use device location</string>
+    <string name="USE_DEVICE_LOCATION_SUMMARY">Allow the app to get your location</string>
+    <string name="UNITS_CATEGORY_TITLE">Units</string>
+    <string name="WEATHER_LOCATION_CATEGORY_TITLE">Weather Location</string>
 </resources>

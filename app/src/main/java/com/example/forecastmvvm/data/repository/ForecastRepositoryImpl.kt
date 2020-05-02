@@ -7,7 +7,6 @@ import com.example.forecastmvvm.data.db.mapper.CurrentWeatherMapper
 import com.example.forecastmvvm.data.db.unitlocalized.UnitSpecificCurrentWeatherEntry
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
-import com.example.forecastmvvm.internal.MeasuringUnitSystem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

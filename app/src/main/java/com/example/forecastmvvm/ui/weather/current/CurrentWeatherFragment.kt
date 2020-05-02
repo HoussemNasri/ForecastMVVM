@@ -20,6 +20,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.on
+import kotlin.properties.Delegates
 
 
 @Suppress("UNUSED_VARIABLE")
@@ -29,6 +30,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance<CurrentWeatherViewModelFactory>()
     private lateinit var viewModel: CurrentWeatherViewModel
     private lateinit var actionBar: ActionBar
+    private var observed by Delegates.notNull<Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         actionBar.title = ""
         actionBar.subtitle = ""
         Log.d(TAG, "Lifecycle : OnCreateView () ")
+        observed = false
         return inflater.inflate(R.layout.current_weather_fragment, container, false)
     }
 
@@ -50,12 +53,13 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         bindUI()
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
     private fun bindUI() = launch {
         onStartLoading()
         val currentWeather = viewModel.weather.await()
 
         currentWeather.observe(viewLifecycleOwner, Observer {
-            if (it == null)
+            if (it == null || observed)
                 return@Observer
 
             updateDateToToday()
@@ -67,6 +71,8 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             updateWind(it.windDirection, it.windSpeed)
             updateVisibility(it.visibilityDistance)
             onStopLoading()
+            Log.d(TAG, "Current Weather View Model Changed !!")
+            observed = true
         })
 
     }
@@ -101,6 +107,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             .into(conditionIcon)
     }
 
+    // Convert the icon resolution from 64x64 To 128x128
     fun formatConditonUrl(conditionUrl: String): String {
         val split = conditionUrl.split("64x64")
         return "https:${split[0]}128x128${split[1]}"

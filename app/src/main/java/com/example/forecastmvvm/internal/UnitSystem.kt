@@ -1,5 +1,5 @@
 package com.example.forecastmvvm.internal
 
-enum class MeasuringUnitSystem {
+enum class UnitSystem {
     IMPERIAL, METRIC
 }

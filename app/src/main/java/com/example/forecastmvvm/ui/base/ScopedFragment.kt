@@ -17,8 +17,8 @@ open class ScopedFragment : Fragment(), CoroutineScope {
         job = Job()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         job.cancel()
-        super.onDestroy()
     }
 }

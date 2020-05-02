@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="Weather">
-
+    <PreferenceCategory android:title="@string/WEATHER_LOCATION_CATEGORY_TITLE">
+        <SwitchPreference
+            android:key="PREFERENCE_USE_DEVICE_LOCATION_KEY"
+            app:title="@string/USE_DEVICE_LOCATION_TITLE"
+            app:summary="@string/USE_DEVICE_LOCATION_SUMMARY"
+            app:defaultValue="true"
+            android:disableDependentsState="true"
+            />
+        <EditTextPreference
+            android:key="PREFERENCE_LOCATION_KEY"
+            app:title="Location"
+            app:summary="The location for which the weather is displayed"
+            android:defaultValue="Los Angelos"
+            android:dependency="PREFERENCE_USE_DEVICE_LOCATION_KEY"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Units">
+        <ListPreference
+            android:key="UNIT_SYSTEM"
+            android:title="Unit system"
+            android:summary="%s"
+            android:defaultValue="METRIC"
+            android:entries="@array/unitSystemEntries"
+            android:entryValues="@array/unitSystemValues"/>
     </PreferenceCategory>
 </PreferenceScreen>
