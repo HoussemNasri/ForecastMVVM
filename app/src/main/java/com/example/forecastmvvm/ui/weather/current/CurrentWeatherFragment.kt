@@ -57,14 +57,18 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private fun bindUI() = launch {
         onStartLoading()
         val currentWeather = viewModel.weather.await()
-
+        val weatherLocation = viewModel.weatherLocation.await()
+        weatherLocation.observe(viewLifecycleOwner, Observer {
+            if (it == null)
+                return@Observer
+            updateDateToToday()
+            updateLocation(it.name)
+        })
         currentWeather.observe(viewLifecycleOwner, Observer {
             if (it == null || observed)
                 return@Observer
 
-            updateDateToToday()
-            //TODO remove the harcoded location
-            updateLocation("Tunisia")
+
             updateTemperature(it.temperature, it.feelsLikeTemperature)
             updateCondition(it.conditionText, it.conditionIconUrl)
             updatePrecipitation(it.precipitationVolume)

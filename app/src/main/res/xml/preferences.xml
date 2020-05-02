@@ -6,6 +6,7 @@
         <SwitchPreference
             android:key="PREFERENCE_USE_DEVICE_LOCATION_KEY"
             app:title="@string/USE_DEVICE_LOCATION_TITLE"
+            android:icon="@drawable/ic_use_device_location"
             app:summary="@string/USE_DEVICE_LOCATION_SUMMARY"
             app:defaultValue="true"
             android:disableDependentsState="true"
@@ -13,6 +14,7 @@
         <EditTextPreference
             android:key="PREFERENCE_LOCATION_KEY"
             app:title="Location"
+            android:icon="@drawable/ic_location_"
             app:summary="The location for which the weather is displayed"
             android:defaultValue="Los Angelos"
             android:dependency="PREFERENCE_USE_DEVICE_LOCATION_KEY"
@@ -23,6 +25,7 @@
         <ListPreference
             android:key="UNIT_SYSTEM"
             android:title="Unit system"
+            android:icon="@drawable/ic_unit_system"
             android:summary="%s"
             android:defaultValue="METRIC"
             android:entries="@array/unitSystemEntries"

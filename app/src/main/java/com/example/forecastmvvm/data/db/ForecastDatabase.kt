@@ -5,15 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntity
+import com.example.forecastmvvm.data.network.response.WeatherLocation
 
 const val DATABASE_NAME = "forecast.db"
 
 @Database(
-    entities = [CurrentWeatherEntity::class],
+    entities = [CurrentWeatherEntity::class, WeatherLocation::class],
     version = 1
 )
 abstract class ForecastDatabase : RoomDatabase() {
     abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun weatherLocationDao(): WeatherLocationDao
 
     companion object {
         @Volatile
